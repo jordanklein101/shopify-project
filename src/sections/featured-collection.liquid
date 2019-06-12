@@ -6,34 +6,35 @@
 ------------------------------------------------------------------------------
 {% endcomment %}
 
-<section class="featured-collection" data-section-id="{{ section.id }}" data-section-type="featured-collection">
+<section class="featured-collection " data-section-id="{{ section.id }}" data-section-type="featured-collection" >
   {%- assign collection = collections[section.settings.collection] -%}
 
-  <h2>{{ collection.title | escape }}</h2>
+  <h1 class='featured-collection-title'>{{ collection.title | escape }}</h1>
 
-  <p>{{ collection.description }}</p>
-
+  <p class='featured-collection-summary'>{{ collection.description }}</p>
+  <div class='js-flickity' data-flickity-options='{ "cellAlign": "left", "freeScroll": true }'>
   {% for product in collection.products limit: 6 %}
     {% assign current_variant = product.selected_or_first_available_variant %}
   
-    <a href="{{ product.url | within: collection }}">
-      <div>
+    <a href="{{ product.url | within: collection }}" class='carousel'>
+      <div class ='featured-collection-item carousel-cell' '>
+      
         {% if product.featured_image != blank %}
           {{ product.featured_image | img_url: 'large' | img_tag }}
         {% endif %}
-        
-        <span js-ajax-cart="addToCart" data-variant-id="{{ current_variant.id }}" data-quantity="1">Add to cart</span>
+        <button><span js-ajax-cart="addToCart" data-variant-id="{{ current_variant.id }}" data-quantity="1">Add to cart</span></button>
       </div>
 
       <div>
-        <p>{{ product.title | escape }}</p>
+        <p class='featured-collection-product-title'>{{ product.title | escape }}</p>
 
-        <span>
+        <span class='featured-collection-product-price'>
           {% include 'product-price' %}
         </span>
       </div>
     </a>
   {% endfor %}
+        </div>
 </section>
 
 {% schema %}
